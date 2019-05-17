@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Site } from './entities/site.entity';
 import { SiteService } from './services/site.service';
 import { SiteController } from './controllers/site.controller';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { SiteController } from './controllers/site.controller';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Site])
+    TypeOrmModule.forFeature([Site]),
+    AuthModule
   ],
   providers: [SiteService],
   controllers: [SiteController]

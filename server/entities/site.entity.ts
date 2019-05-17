@@ -5,9 +5,9 @@ export class Site {
   @PrimaryGeneratedColumn()
   siteId: number;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, default: null })
   name: string;
 
-  @Column()
+  @Column({default: null})
   teamId: number;
 }
