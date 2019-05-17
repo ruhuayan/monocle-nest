@@ -1,0 +1,48 @@
+.wrapper_login {
+    height: 100%;
+    margin: 0px auto;
+    overflow: hidden;
+    background-color: #000;
+}
+    .other {
+        color: #fff;
+        text-align: center;
+        width: 500px;
+        margin: 20px auto;
+        padding: 5px 0px 25px
+    }
+        .other h4 {
+            font-size: 20px;
+            margin: 0 0 20px;
+            font-weight: normal;
+        }
+
+    .form_login {
+        color: #fff;
+        text-align: center;
+        border: 5px solid #DEA622;
+        width: 500px;
+        margin: 58px auto;
+        padding: 5px 0px 25px
+    }
+        a.block {
+            display: inline-block;
+            margin:5px 0;
+        }
+        
+        #message {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .form_login h3 {
+            font-size: 25px;
+            margin-bottom: 16px;
+        }
+            .form_login input[type="text"],
+            .form_login input[type="password"] {
+                padding: 5px;
+                border: 0;
+                margin: 10px;
+            }
