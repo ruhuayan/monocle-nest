@@ -1,24 +1,21 @@
-import { Controller, Get, Post,Put, Delete, Body, Param } from '@nestjs/common';
-import { UserService } from '../services/User.service';
-import { User } from '../entities/User.entity';
+import { Controller, Get, Post,Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { UserService } from '../services/user.service';
+import { User } from '../entities/user.entity';
+// import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get()
+    // @UseGuards(AuthGuard)
     async findAll(): Promise<User[]> {
       return this.userService.findAll();
     }
 
-    @Post()
-    async create(@Body() userData: User): Promise<User> {
-      return this.userService.create(userData);
-    }
-
     @Put(':id')
     async update(@Param('id') id, @Body() userData: User): Promise<any> {
-        userData.id = Number(id);
+        userData.id = id;
         return this.userService.update(userData);
     }  
 

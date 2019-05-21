@@ -11,16 +11,12 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) { }
 
-    private async validate(userData: User): Promise<User> {
-        return await this.userService.findByEmail(userData.email);
-    }
-
-    public async login(user: User): Promise< any | { status: number }>{
-        return this.validate(user).then((userData)=>{
+    public async login(user: User): Promise<any>{
+        return this.userService.findByEmail(user.email).then((userData)=>{
           if(!userData){
-            return { status: 404 };
+            return { status: 404, msg: 'User not found' };
           }
-          let payload = `${userData.email}${userData.id}`;
+          let payload = `${userData.id}`;
           const accessToken = this.jwtService.sign(payload);
 
           return {
@@ -29,7 +25,6 @@ export class AuthService {
              user_id: payload,
              status: 200
           };
-
         });
     }
 

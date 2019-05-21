@@ -39,9 +39,9 @@ export class Developer {
     @Column({length: 255, default: null})
     desk: string;
 
-    // @OneToOne(type => User)
-    // @JoinColumn()
-    // user: User;
+    @OneToOne(type => User)
+    @JoinColumn()
+    user: User;
 }
 
 enum Role {
