@@ -7,12 +7,12 @@ import { UserService } from '../../services/user.service';
 import { UserController } from '../../controllers/user.controller';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
-// import { PassportModule } from '@nestjs/passport';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
-    // PassportModule.register({ defaultStrategy: 'jwt' }),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
         secretOrPrivateKey: 'secret12356789'
     })

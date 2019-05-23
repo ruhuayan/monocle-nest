@@ -1,17 +1,22 @@
 import { Controller, Get, Post,Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
-// import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get()
-    // @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard('jwt'))
     async findAll(): Promise<User[]> {
       return this.userService.findAll();
     }
+
+    // @Get(':id')
+    // async findById(@Param('id') id): Promise<User[]> {
+    //   return this.userService.findById(id);
+    // }
 
     @Put(':id')
     async update(@Param('id') id, @Body() userData: User): Promise<any> {

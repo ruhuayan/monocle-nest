@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from '../../entities/user.entity';
 import { UserService } from '../../services/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from './jwtPayload.interface';
 
 @Injectable()
 export class AuthService {
@@ -16,13 +17,14 @@ export class AuthService {
           if(!userData){
             return { status: 404, msg: 'User not found' };
           }
-          let payload = `${userData.id}`;
+          
+          const payload: JwtPayload = {id: user.id, email: user.email, loginAt: new Date()};
           const accessToken = this.jwtService.sign(payload);
 
           return {
              expires_in: 3600,
              access_token: accessToken,
-             user_id: payload,
+             payload,
              status: 200
           };
         });
