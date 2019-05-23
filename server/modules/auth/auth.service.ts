@@ -3,6 +3,7 @@ import { User } from '../../entities/user.entity';
 import { UserService } from '../../services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwtPayload.interface';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,10 @@ export class AuthService {
           if(!userData){
             return { status: 404, msg: 'User not found' };
           }
-          
+          const hash = crypto.createHmac('sha256', user.password).digest('hex');
+          if (hash !== userData.password) {
+            return { status: 404, msg: 'Credential error' };
+          }
           const payload: JwtPayload = {id: user.id, email: user.email, loginAt: new Date()};
           const accessToken = this.jwtService.sign(payload);
 
