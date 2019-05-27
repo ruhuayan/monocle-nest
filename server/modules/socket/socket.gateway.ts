@@ -4,26 +4,23 @@ import { WebSocketGateway, WebSocketServer, SubscribeMessage, OnGatewayConnectio
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @WebSocketServer() server;
-    users = 0;
+    users = [];
 
-    async handleConnection() {
+    async handleConnection(client) {
 
-        // A client has connected
-        this.users++;
+        this.users.push(client);
+        client.emit('proceed', {id: client.id})
 
         // Notify connected clients of current users
-        this.server.emit('users', this.users);
+        this.server.emit('unlock', {id: client.id});
 
     }
 
-    async handleDisconnect(){
-
-        // A client has disconnected
-        this.users--;
+    async handleDisconnect(client){
+        this.users = this.users.filter(user => user.id !==client.id);
 
         // Notify connected clients of current users
         this.server.emit('users', this.users);
-
     }
 
     @SubscribeMessage('chat')

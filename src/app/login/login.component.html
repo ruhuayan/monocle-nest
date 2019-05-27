@@ -1,20 +1,20 @@
 <div class="wrapper_login">
   <div class="form_login">
-      <form action="" method="post" id="login2" >
+      <form method="post" role="form" id="login2" #loginForm="ngForm" (ngSubmit)="login()">
           <div id="message"></div>  
           <h3>Login </h3>
 
           <label>
               <span>Username:</span>
-              <input id="username" type="text" name="username" placeholder="LDAP username" />
+              <input id="username" type="text" name="username" placeholder="LDAP email" [(ngModel)]="auth.email" required />
           </label>
           <br />
           <label>
               <span>Password:</span>
-              <input id="password" type="password" name="password" />
+              <input id="password" type="password" name="password" [(ngModel)]="auth.password" required minlength="6" />
           </label>
           <br />
-          <input type="button" id="submit" class="button treeviewpage-button bold" value="Login" />
+          <input type="submit" id="submit" class="button treeviewpage-button bold" value="Login" [disabled]="loginForm.invalid" />
       </form>
       
   </div>

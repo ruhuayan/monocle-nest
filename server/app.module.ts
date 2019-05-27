@@ -6,10 +6,10 @@ import { Site } from './entities/site.entity';
 import { SiteService } from './services/site.service';
 import { SiteController } from './controllers/site.controller';
 import { AuthModule } from './modules/auth/auth.module';
+import { SocketModule } from './modules/socket/socket.module';
 // import {ConfigModule, ConfigService} from 'nestjs-config';
 // import * as path from 'path';
 import * as dotenv from 'dotenv';
-import { SocketModule } from './modules/socket/socket.module';
 dotenv.config();
 
 @Module({
@@ -23,9 +23,9 @@ dotenv.config();
       type: 'mysql',
       host: '127.0.0.1',
       port: 3306,
-      username: process.env.USERNAME,
-      password: process.env.PASSWORD,
-      database: process.env.DATABASE,
+      username: 'test123',
+      password: 'test_123',
+      database: 'monocle',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
