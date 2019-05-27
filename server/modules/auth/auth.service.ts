@@ -4,18 +4,20 @@ import { UserService } from '../../services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwtPayload.interface';
 import * as crypto from 'crypto';
+import { MailerService } from '@nest-modules/mailer';
 
 @Injectable()
 export class AuthService {
 
     constructor(
         private readonly userService: UserService,
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+        private readonly mailerService: MailerService
     ) { }
 
     public async login(user: User): Promise<any>{
-        return this.userService.findByEmail(user.email).then((userData)=>{
-          if(!userData){
+        return this.userService.findByEmail(user.email).then((userData) => {
+          if (!userData) {
             return { status: 404, msg: 'User not found' };
           }
           const hash = crypto.createHmac('sha256', user.password).digest('hex');
@@ -28,13 +30,29 @@ export class AuthService {
           return {
              expires_in: 3600,
              access_token: accessToken,
-             payload,
+             id: user.id,
              status: 200
           };
         });
     }
 
-    public async register(user: User): Promise<any>{
-        return this.userService.create(user)
-    } 
+    public async register(user: User): Promise<any> {
+      const success = await this.sendActivateEmail(user).then(res => console.log(res));
+
+      return this.userService.create(user);
+    }
+
+    private sendActivateEmail(user: User): Promise<any>{
+      return this.mailerService
+            .sendMail({
+              to: user.email,
+              from: 'noreply@nestjs.com',
+              subject: 'Testing Nest Mailermodule with template ✔',
+              template: __dirname + '/activate', // The `.pug` or `.hbs` extension is appended automatically.
+              context: {  // Data to be sent to template engine.
+                code: 'cf1a3f828287',
+                username: user.email,
+              },
+            });
+    }
 }

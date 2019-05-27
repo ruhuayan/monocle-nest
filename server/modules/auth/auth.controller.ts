@@ -1,6 +1,6 @@
-import { Controller, Post, Body, BadRequestException, HttpStatus } from  '@nestjs/common';
-import { AuthService } from  './auth.service';
-import { User } from  '../../entities/user.entity';
+import { Controller, Post, Body, BadRequestException, HttpStatus } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { User } from '../../entities/user.entity';
 import { UserValidationPipe } from './userValidate.pipe';
 import { UserService } from '../../services/user.service';
 
@@ -12,7 +12,7 @@ export  class  AuthController {
     @Post('login')
     async login(@Body() user: User): Promise<any> {
       return this.authService.login(user);
-    }  
+    }
 
     @Post('register')
     async register(@Body(new UserValidationPipe()) user: User): Promise<any> {

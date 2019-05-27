@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
-import {Contains, IsEmail, Min, MinLength, Matches} from "class-validator";
+import {Contains, IsEmail, Min, MinLength, Matches} from 'class-validator';
 import * as crypto from 'crypto';
 
 enum Role {
@@ -28,4 +28,7 @@ export class User {
 
   @Column({length: 6, default: Role.USER})
   role: Role;
+
+  @Column({default: false})
+  isActivated: boolean;
 }

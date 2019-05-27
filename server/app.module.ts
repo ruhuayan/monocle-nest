@@ -6,6 +6,11 @@ import { Site } from './entities/site.entity';
 import { SiteService } from './services/site.service';
 import { SiteController } from './controllers/site.controller';
 import { AuthModule } from './modules/auth/auth.module';
+// import {ConfigModule, ConfigService} from 'nestjs-config';
+// import * as path from 'path';
+import * as dotenv from 'dotenv';
+import { SocketModule } from './modules/socket/socket.module';
+dotenv.config();
 
 @Module({
   imports: [
@@ -18,14 +23,19 @@ import { AuthModule } from './modules/auth/auth.module';
       type: 'mysql',
       host: '127.0.0.1',
       port: 3306,
-      username: 'test123',
-      password: 'test_123',
-      database: 'monocle',
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD,
+      database: process.env.DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    // ConfigModule.load(path.resolve(__dirname, 'config', '**', '!(*.d).{ts,js}')),
+    // TypeOrmModule.forRootAsync({
+    //   useFactory: (config: ConfigService) => config.get('database'),
+    //   inject: [ConfigService],
+    // }),
     TypeOrmModule.forFeature([Site]),
-    AuthModule
+    AuthModule, SocketModule
   ],
   providers: [SiteService],
   controllers: [SiteController]
