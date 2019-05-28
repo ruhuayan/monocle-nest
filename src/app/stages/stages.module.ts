@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StagesComponent } from './stages.component';
+import { LeftMenuComponent } from '../left-menu/left-menu.component';
 
 @NgModule({
 imports: [
@@ -14,6 +15,6 @@ imports: [
   ])
 ],
 providers: [],
-declarations: [StagesComponent]
+declarations: [StagesComponent, LeftMenuComponent]
 })
 export class StagesModule {}
