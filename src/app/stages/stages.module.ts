@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { PointsComponent } from './points.component';
 import { RouterModule } from '@angular/router';
 import { StagesComponent } from './stages.component';
 
@@ -10,7 +9,7 @@ imports: [
   RouterModule.forChild([
     {
       path: '',
-      component:
+      component: StagesComponent
     }
   ])
 ],
