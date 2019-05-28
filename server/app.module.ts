@@ -23,8 +23,8 @@ dotenv.config();
       type: 'mysql',
       host: '127.0.0.1',
       port: 3306,
-      username: 'test123',
-      password: 'test_123',
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD,
       database: 'monocle',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
@@ -35,7 +35,7 @@ dotenv.config();
     //   inject: [ConfigService],
     // }),
     TypeOrmModule.forFeature([Site]),
-    AuthModule, SocketModule
+    AuthModule, SocketModule,
   ],
   providers: [SiteService],
   controllers: [SiteController]

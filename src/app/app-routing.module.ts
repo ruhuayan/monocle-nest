@@ -9,25 +9,10 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
-  // {
-  //   path: 'jukebox',
-  //   loadChildren: './pages/jukebox/jukebox.module#JukeboxModule'
-  // }, {
-  //   path: 'igame',
-  //   loadChildren: './pages/imagegame/imagegame.module#ImagegameModule'
-  // }, {
-	// 	path: 'points',
-  //   loadChildren: './pages/points/points.module#PointsModule'
-  // }, {
-	// 	path: 'blackjack',
-  //   loadChildren: './pages/blackjack/blackjack.module#BlackjackModule'
-  // }, {
-  //   path: 'solitaire',
-  //   loadChildren: './pages/solitaire/solitaire.module#SolitaireModule'
-  // },{
-  //   path: 'balls',
-  //   loadChildren: './pages/ball/ball.module#BallModule'
-  // },
+  {
+    path: 'stages',
+    loadChildren: './stages/stages.module#StagesModule'
+  },
   {
 		path: '**',
 		redirectTo: '404',
