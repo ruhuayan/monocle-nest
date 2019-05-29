@@ -24,7 +24,7 @@ export class AuthService {
           if (hash !== userData.password) {
             return { status: 404, msg: 'Credential error' };
           }
-          const payload: JwtPayload = {id: user.id, email: user.email, loginAt: new Date()};
+          const payload: JwtPayload = {id: user.id, email: user.email, role: user.role};
           const accessToken = this.jwtService.sign(payload);
 
           return {

@@ -28,6 +28,15 @@ export class MonocleService {
     return this.http.post(API_URL + '/auth/login', userData, httpOptions);
   }
 
+  public isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    return false;
+  }
+
+  public decode(): any {
+    return null;
+  }
+
   // public SetCredentials(data: string): void {
   //   this.cookies.set('globals', data);
   // }
