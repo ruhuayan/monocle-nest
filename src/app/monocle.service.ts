@@ -3,6 +3,7 @@ import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Auth } from './login/login.component';
+
 // import { CookieService } from 'ngx-cookie-service';
 
 const httpOptions = {
@@ -28,15 +29,24 @@ export class MonocleService {
     return this.http.post(API_URL + '/auth/login', userData, httpOptions);
   }
 
-  public isAuthenticated(): boolean {
+  public verify(): Observable<any> {
     const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+    const tokenObj = {token: token};
+    return this.http.post(`${API_URL}/auth/verify`, tokenObj, httpOptions);
+  }
+
+  public async isAuthenticated() {
+    const res = await this.verify(); console.log(res);
+    if (res && res['email']) return true;
     return false;
   }
 
-  public decode(): any {
-    return null;
+  public lougout() {
+    localStorage.removeItem('token');
   }
-
   // public SetCredentials(data: string): void {
   //   this.cookies.set('globals', data);
   // }

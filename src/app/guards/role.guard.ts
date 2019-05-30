@@ -11,11 +11,11 @@ export class RoleGuard implements CanActivate {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const user = this.monocleService.decode();
+    // const user = this.monocleService.decode();
 
-    if (user && user.Role === next.data.role) {
-      return true;
-    }
+    // if (user && user.Role === next.data.role) {
+    //   return true;
+    // }
 
     // navigate to not found page
     this._router.navigate(['/login']);

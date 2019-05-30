@@ -1,8 +1,9 @@
-import { Controller, Post, Body, BadRequestException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, BadRequestException, HttpStatus, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from '../../entities/user.entity';
 import { UserValidationPipe } from './userValidate.pipe';
 import { UserService } from '../../services/user.service';
+import { Token } from '../../entities/token.interface';
 
 @Controller('auth')
 export  class  AuthController {
@@ -21,5 +22,10 @@ export  class  AuthController {
         throw new BadRequestException('Email already exists');
       }
       return this.authService.register(user);
+    }
+
+    @Post('verify')
+    async verify(@Body() token: Token): Promise<any> {
+      return this.authService.verify(token.token);
     }
 }

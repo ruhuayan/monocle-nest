@@ -5,7 +5,9 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwtPayload.interface';
 import * as crypto from 'crypto';
 import { MailerService } from '@nest-modules/mailer';
+import { Token, JwtDecode } from '../../entities/token.interface';
 
+const EXPIRES_IN = 3600;
 @Injectable()
 export class AuthService {
 
@@ -28,7 +30,7 @@ export class AuthService {
           const accessToken = this.jwtService.sign(payload);
 
           return {
-             expires_in: 3600,
+             expires_in: EXPIRES_IN,
              access_token: accessToken,
              id: user.id,
              status: 200
@@ -40,6 +42,18 @@ export class AuthService {
       const success = await this.sendActivateEmail(user).then(res => console.log(res));
 
       return this.userService.create(user);
+    }
+
+    public async verify(token: string): Promise<any> {
+      const jwtPayload: JwtDecode = await this.jwtService.verify(token);
+      if (Math.ceil(Date.now()/1000) - jwtPayload.iat < EXPIRES_IN) {
+        return this.userService.findByEmail(jwtPayload.email);
+      }
+      return {
+        success: 0,
+        msg: 'jwt token expired'
+      }
+      
     }
 
     private sendActivateEmail(user: User): Promise<any>{
