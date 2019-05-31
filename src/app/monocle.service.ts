@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Auth } from './login/login.component';
+import { isPlatformBrowser } from '@angular/common';
 
 // import { CookieService } from 'ngx-cookie-service';
 
@@ -12,7 +13,9 @@ const httpOptions = {
 const API_URL = environment.apiUrl;
 @Injectable()
 export class MonocleService {
-  constructor(private http: HttpClient, /*private cookies: CookieService*/) { }
+  constructor(private http: HttpClient, /*private cookies: CookieService*/
+              @Inject(PLATFORM_ID) private platformId: Object
+    ) { }
 
   InitPassword(userData) {
     return this.http.post( API_URL + '/initPassword/', userData, httpOptions);
@@ -30,7 +33,11 @@ export class MonocleService {
   }
 
   public verify(): Observable<any> {
-    const token = localStorage.getItem('token');
+    let token: string;
+    if (isPlatformBrowser(this.platformId)) {
+      token = localStorage.getItem('token');
+    }
+    console.log(token);
     if (!token) {
       return null;
     }
@@ -39,13 +46,16 @@ export class MonocleService {
   }
 
   public async isAuthenticated() {
-    const res = await this.verify(); console.log(res);
+    
+    const res = await this.verify();console.log(res);
     if (res && res['email']) return true;
     return false;
   }
 
   public lougout() {
-    localStorage.removeItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+    }
   }
   // public SetCredentials(data: string): void {
   //   this.cookies.set('globals', data);

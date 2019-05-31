@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.loginForm.valid) {
-      this.monocleService.Login(this.auth).subscribe(res => { console.log(res);
-        if (res && res.status === 200) {
+      this.monocleService.Login(this.auth).subscribe(res => { 
+        if (res && res.status === 200) {console.log(res);
           localStorage.setItem('token', res.access_token);
           this.router.navigateByUrl('/stages');
         }
