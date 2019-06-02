@@ -15,9 +15,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload) { console.log(payload)
+  async validate(payload: {email: string, iat: number}) { console.log(payload)
+    if (!payload.iat || Math.ceil(Date.now() / 1000) - payload.iat > 3600) {
+      throw new UnauthorizedException();
+    }
     const user = await this.userService.findByEmail(payload.email);
-    if (!user) {
+    if (!user) { // !user.isActivated
       throw new UnauthorizedException();
     }
     return user;

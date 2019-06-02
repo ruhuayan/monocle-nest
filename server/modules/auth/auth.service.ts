@@ -44,19 +44,10 @@ export class AuthService {
       return this.userService.create(user);
     }
 
-    public async verify(token: string): Promise<any> {
-      const jwtPayload: JwtDecode = await this.jwtService.verify(token);
-      if (Math.ceil(Date.now()/1000) - jwtPayload.iat < EXPIRES_IN) {
-        return this.userService.findByEmail(jwtPayload.email);
-      }
-      return {
-        success: 0,
-        msg: 'jwt token expired'
-      }
-      
+    public async logout(token: string): Promise<any> {
+      return null;
     }
-
-    private sendActivateEmail(user: User): Promise<any>{
+    private sendActivateEmail(user: User): Promise<any> {
       return this.mailerService
             .sendMail({
               to: user.email,

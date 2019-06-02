@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Auth } from './login/login.component';
 import { isPlatformBrowser } from '@angular/common';
-
+import { takeUntil, mergeMap, map } from 'rxjs/operators';
 // import { CookieService } from 'ngx-cookie-service';
 
 const httpOptions = {
@@ -32,24 +32,26 @@ export class MonocleService {
     return this.http.post(API_URL + '/auth/login', userData, httpOptions);
   }
 
-  public verify(): Observable<any> {
+  public verify(token: string): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': token  })
+    };
+    return this.http.get(`${API_URL}/auth/verify`, options);
+  }
+
+  public isAuthenticated(): Observable<boolean> | boolean{
     let token: string;
     if (isPlatformBrowser(this.platformId)) {
       token = localStorage.getItem('token');
     }
-    console.log(token);
     if (!token) {
-      return null;
+      return false;
     }
-    const tokenObj = {token: token};
-    return this.http.post(`${API_URL}/auth/verify`, tokenObj, httpOptions);
-  }
+    return this.verify(token).pipe(map(res => { console.log(res)
 
-  public async isAuthenticated() {
-    
-    const res = await this.verify();console.log(res);
-    if (res && res['email']) return true;
-    return false;
+      if (res && res['email']) { return true; }
+      else return false;
+    }));
   }
 
   public lougout() {

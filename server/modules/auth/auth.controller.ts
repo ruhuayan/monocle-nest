@@ -1,9 +1,10 @@
-import { Controller, Post, Body, BadRequestException, HttpStatus, Get } from '@nestjs/common';
+import { Controller, Post, Body, BadRequestException, HttpStatus, Get, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from '../../entities/user.entity';
 import { UserValidationPipe } from './userValidate.pipe';
 import { UserService } from '../../services/user.service';
 import { Token } from '../../entities/token.interface';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export  class  AuthController {
@@ -24,8 +25,15 @@ export  class  AuthController {
       return this.authService.register(user);
     }
 
-    @Post('verify')
-    async verify(@Body() token: Token): Promise<any> {
-      return this.authService.verify(token.token);
+    @Get('verify')
+    @UseGuards(AuthGuard('jwt'))
+    async verify(@Req() req): Promise<any> { // console.log(req)
+      return req.user;
     }
+
+    // @Post('logout')
+    // async logout(@Body() token: Token): Promise<any> {
+    //   return this.authService.verify(token.token);
+    // }
+
 }

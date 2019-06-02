@@ -5,6 +5,9 @@ import { StagesComponent } from './stages.component';
 import { LeftMenuComponent } from '../left-menu/left-menu.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { RoleGuard } from '../guards/role.guard';
+import { SocketService } from './socket.service';
+
+// const config = { url: 'http://35.203.32.30:8000', options: {} };
 @NgModule({
 imports: [
   CommonModule,
@@ -12,11 +15,13 @@ imports: [
     {
       path: '',
       component: StagesComponent,
-      canActivate: [AuthGuard]
+      // canActivate: [AuthGuard]
     }
-  ])
+  ]),
+  // SocketIoModule.forRoot(config)
 ],
-providers: [AuthGuard, RoleGuard],
+providers: [AuthGuard, RoleGuard, SocketService],
 declarations: [StagesComponent, LeftMenuComponent]
 })
+
 export class StagesModule {}

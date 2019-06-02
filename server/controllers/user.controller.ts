@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Req } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
@@ -9,7 +9,7 @@ export class UserController {
 
     @Get()
     @UseGuards(AuthGuard('jwt'))
-    async findAll(): Promise<User[]> {
+    async findAll(@Req() req): Promise<User[]> { console.log(req.user)
       return this.userService.findAll();
     }
 

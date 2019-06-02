@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SocketService } from './socket.service';
 
 @Component({
   selector: 'app-stages',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StagesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private socketService: SocketService) { }
 
   ngOnInit() {
+    //this.socket.emit('msg', {a: 1});
   }
 
 }
