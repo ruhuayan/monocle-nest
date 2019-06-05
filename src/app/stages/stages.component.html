@@ -37,7 +37,7 @@
         <div class="col">
             <button class="js-status-filter inputColor color-green input-no-margin">To Deploy</button>
             <button class="js-status-filter inputColor color-teal">To Deploy (Remotes)</button>
-            
+
         </div>
     </div>
     <div class="Rtable-cell">
@@ -45,9 +45,9 @@
         <button class="js-filter input" data-item="fe">FE Packages</button>
         <button class="js-filter input"  data-item="noQa">NoQA</button>
         <button class="js-filter input" data-item="be">BE Packages</button>
-        
+
           <button class="js-filter input" data-item="developer">My Stages</button>
-        
+
     </div>
     <div class="Rtable-cell">
         <button class="js-sort input" data-sort="priority">Priority</button>
@@ -55,9 +55,9 @@
         <button class="js-sort input" data-sort="alphabetical">Alphabetical</button>
     </div>
     <div class="Rtable-cell Rtable-form">
-        
+
         <div class="form-control">
-            <label for="release-prod">FRONT:</label> 
+            <label for="release-prod">FRONT:</label>
             <input type="text" id="release-prod" class="release-data" value="" />
         </div>
         <div class="form-control">
@@ -65,10 +65,10 @@
             <input type="text" id="release-upload" class="release-data" value="" />
         </div>
         <div class="form-control">
-            <label for="release-cms">CMS:</label> 
+            <label for="release-cms">CMS:</label>
             <input type="text" id="release-cms" class="release-data" value="" />
         </div>
-        
+
         <div class="form-control">
             <button id="js-minimize-all" class="input input-no-margin">Collapse/Expand All</button>
         </div>
@@ -77,115 +77,82 @@
 
   <div id="sortingContent">
 
-    <section *ngFor="let stage of stages; let " class="stageBox open" id="stage{{ i }}" data-stage="{{ i }}">
+    <section *ngFor="let stage of stages; let i = index " class="stageBox open">
 
-        
             <div class="editedByStatus"></div>
-
-            {% set color = '' %}
-            {% if reservation %}
-                {% if colors[reservation.status] is defined %}
-                    {% set color = colors[reservation.status] %}
-                {% else %}
-                    {% set color = "white" %}
-                {% endif %}
-            {% endif %}
-
             <ul>
-                <li class="title bold">Stage {{ i }} <i data-stage="{{ i }}" id="js-minimize{{ i }}" class="js-minimize fa fa-minus-square-o fright"></i></li>
-
-
-                {% if site == 'redtube' and i == 11 %}
-                   <li class="staticNotes"><p class="info"><span class="iconInfo"></span> Traffic Replay, Emails, Crons.</p></li>
-                {% elseif site == 'redtube' and i == 12 %}
-                    <li class="staticNotes"><p class="info"><span class="iconInfo"></span> Traffic Replay.</p></li>
-                {% elseif site == 'redtube' and i == 13 %}
-                    <li class="staticNotes"><p class="info"><span class="iconInfo"></span> Prerolls, Traffic Replay, TubesCMS.</p></li>
-                {% endif %}
+                <li class="title bold">Stage {{ i }} <i class="js-minimize fa fa-minus-square-o fright"></i></li>
 
                 <li>
                     <span class="form-control">
-                        <input type="checkbox" class="input-checkbox checkbox-isHotfix" id="stage{{ i }}-isHotfix" {% if reservation and reservation.isHotfix %}checked{% endif %} 
-                            data-original="{% if reservation and reservation.isHotfix %}checked{% endif %}" >
+                        <input type="checkbox" class="input-checkbox checkbox-isHotfix" id="stage{{ i }}-isHotfix" [checked]="stage.isHotfix" />
                         <label class="checkbox-label" for="stage{{ i }}-isHotfix">Hotfix</label>
                     </span>
                     <span class="form-control">
-                        <input type="checkbox" class="input-checkbox checkbox-noQa" id="stage{{ i }}-noQa" {% if reservation and not reservation.needsQa %}checked{% endif %}
-                            data-original="{% if reservation and not reservation.needsQa %}checked{% endif %}">
+                        <input type="checkbox" class="input-checkbox checkbox-noQa" id="stage{{ i }}-noQa" [checked]="!stage.needsQa" />
                         <label class="checkbox-label" for="stage{{ i }}-noQa">NoQA</label>
                     </span>
 
-                    <div><img src="{{ asset('img/flame.png') }}" class="flameGif {% if reservation and not reservation.isHotfix or not reservation %}hidden{% endif %}"/></div>
-           
+                    <div><img src="assets/imgs/flame.png" class="flameGif" [ngClass]="{'hidden': stage.isHotfix}" /></div>
+
                 </li>
                 <li>
-                    {# please note that the classes assigned to this element are overwritten by JS, so if you add more, update the JS below #}
-                    <select class="js-status color-{{color}}" id="stage{{ i }}-editedByStatus" {% if not loggedInDeveloper %}disabled="disabled" {% endif %} >
-                        <option class="color-white" {% if reservation and reservation.status == 'Open' %}selected="selected"{% endif %}>Open</option>
-                       
-                        <option class="color-yellow" {% if reservation and reservation.status == 'Dev Testing' %}selected="selected"{% endif %}>Dev Testing</option>
-                        <option class="color-orange" {% if reservation and reservation.status == 'Ready for QA' %}selected="selected"{% endif %}>Ready for QA</option>
-                        <option class="color-blue" {% if reservation and reservation.status == 'QA Testing' %}selected="selected"{% endif %}>QA Testing</option>
-                        <option class="color-red" {% if reservation and reservation.status == 'Problematic' %}selected="selected"{% endif %}>Problematic</option>
-                        <option class="color-green" {% if reservation and reservation.status == 'To Deploy' %}selected="selected"{% endif %}>To Deploy</option>
-                        <option class="color-teal" {% if reservation and reservation.status == 'To Deploy (R)' %}selected="selected"{% endif %}>To Deploy (R)</option>
-                        
+                    <select class="js-status color-{{stage.color}}">
+                        <option class="color-white">Open</option>
+                        <option class="color-yellow">Dev Testing</option>
+                        <option class="color-orange">Ready for QA</option>
+                        <option class="color-blue">QA Testing</option>
+                        <option class="color-red">Problematic</option>
+                        <option class="color-green">To Deploy</option>
+                        <option class="color-teal">To Deploy (R)</option>
+
                     </select>
 
-                    <select class="js-priority" id="stage{{ i }}-priority" {% if not loggedInDeveloper %}disabled="disabled" {% endif %}>
-                        <option value="9" {% if reservation and reservation.priority == '9' %}selected="selected"{% endif %}>-</option>
-                        <option value="0" {% if reservation and reservation.priority == '0' %}selected="selected"{% endif %}>p0</option>
-                        <option value="1" {% if reservation and reservation.priority == '1' %}selected="selected"{% endif %}>p1</option>
-                        <option value="2" {% if reservation and reservation.priority == '2' %}selected="selected"{% endif %}>p2</option>
-                        <option value="3" {% if reservation and reservation.priority == '3' %}selected="selected"{% endif %}>p3</option>
-                        <option value="4" {% if reservation and reservation.priority == '4' %}selected="selected"{% endif %}>p4</option>
-                        <option value="5" {% if reservation and reservation.priority == '5' %}selected="selected"{% endif %}>p5</option>
+                    <select class="js-priority" id="stage{{ i }}-priority">
+                        <option value="9" >-</option>
+                        <option value="0" >p0</option>
+                        <option value="1" >p1</option>
+                        <option value="2" >p2</option>
+                        <option value="3" >p3</option>
+                        <option value="4" >p4</option>
+                        <option value="5" >p5</option>
                     </select>
                 </li>
 
                 <li>
-                    <input type="text" class="fixVersions" id="stage{{ i }}-fv" placeholder="Fix Version" {% if not loggedInDeveloper %}disabled="disabled" {% endif %}
-                           value="{% if reservation %}{{ reservation.fixedVersion }}{% endif %}"/>&nbsp;<a href="{% if reservation %}https://jira.mgcorp.co/projects/{{ jiraKey }}/versions/{{ reservation.fixedVersionKey }}{% endif %}" target="_blank" id="stage{{ i }}-fv-link"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-                    <input type="hidden" class="fvk" id="stage{{ i }}-fvk"  value="{% if reservation %}{{ reservation.fixedVersionKey }}{% endif %}"/>
+                    <input type="text" class="fixVersions" id="stage{{ i }}-fv" placeholder="Fix Version"
+                           [value]="stage.fixVersion"/>&nbsp;<a href="https://jira.mgcorp.co/projects/{{ jiraKey }}/versions/{{ stage.fixedVersionKey }}" target="_blank" id="stage{{ i }}-fv-link"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    <input type="hidden" class="fvk" id="stage{{ i }}-fvk"  [value]="stage.fixedVersionKey"/>
                 </li>
                 <li class="hide">
-                    <select id="stage{{ i }}-qa" multiple="multiple" class="js-qa" {% if not loggedInDeveloper %}disabled="disabled" {% endif %}>
-                        {% if reservation and reservation.qa %}
-                            {% set names = reservation.qa|split('/') %}
-                            {% for name in names %}
-                                <option value="{{ name|e }}" selected="selected">{{ name }}</option>
-                            {% endfor %}
-                        {% endif %}
+                    <select id="stage{{ i }}-qa" multiple="multiple" class="js-qa">
+
+                      <option [value]="stage.qa" selected="selected">{{ stage.qa }}</option>
+
                     </select>
                 </li>
                 <li class="hide">
-                    <select id="stage{{ i }}-dev" multiple="multiple" class="js-dev" {% if not loggedInDeveloper %}disabled="disabled" {% endif %}>
-                        {% if reservation and reservation.dev %}
-                            {% set names = reservation.dev|split('/') %}
-                            {% for name in names %}
-                                <option value="{{ name|e }}" selected="selected">{{ name }}</option>
-                            {% endfor %}
-                        {% endif %}
+                    <select id="stage{{ i }}-dev" multiple="multiple" class="js-dev">
+
+                      <option [value]="stage.dev" selected="selected">{{ stage.dev }}</option>
+
                     </select>
                 </li>
                 <li class="hide">
-                    <textarea id="stage{{ i }}-note" placeholder="Notes" {% if not loggedInDeveloper %}disabled="disabled" {% endif %}>{% if reservation %}{{ reservation.notes }}{% endif %}</textarea>
+                    <textarea id="stage{{ i }}-note" placeholder="Notes">{{ stage.notes }}</textarea>
                 </li>
-                {% if loggedInDeveloper %}
-                    <li class="hide actions">
-                        <button id="stage{{ i }}-save" class="save input">Save</button>
-                        <button id="stage{{ i }}-cancel" class="cancel input">Cancel</button>
-                    </li>
-                {% endif %}
+
+                <li class="hide actions">
+                    <button id="stage{{ i }}-save" class="save input">Save</button>
+                    <button id="stage{{ i }}-cancel" class="cancel input">Cancel</button>
+                </li>
 
             </ul>
 
             <div class="infoBar">
-                <i class="fa fa-hourglass-half" aria-hidden="true" title="Last Update"></i>&nbsp;<span id="stage{{ i }}-lastUpdate" data-time="{% if reservation and reservation.lastUpdated %}{{ reservation.lastUpdated|date_modify("-5 hour").timestamp }}{% endif %}" class="lastUpdated"></span>
-                <a href="{{ path('stage-reservation-history', {site: site, stage: i}) }}"><i class="fright fa fa-history" aria-hidden="true" title="Show History"></i></a>
+                <i class="fa fa-hourglass-half" aria-hidden="true" title="Last Update"></i>&nbsp;<span id="stage{{ i }}-lastUpdate" class="lastUpdated"></span>
+                <a><i class="fright fa fa-history" aria-hidden="true" title="Show History"></i></a>
             </div>
-
-        
 
     </section>
 

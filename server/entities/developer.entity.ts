@@ -5,12 +5,12 @@ import { User } from "./user.entity";
 
 @Entity()
 export class Developer {
- 
+
     @PrimaryGeneratedColumn()
-    distinguished_name: string;
+    id: number;
 
     @Column({type: 'int', default: null})
-    team_id: number;
+    teamId: number;
 
     @Column({length: 50, default: null})
     role: Role;
@@ -32,9 +32,9 @@ export class Developer {
 
     @Column({type: 'int', default: null})
     birth_day: number;
-    
+
     @Column({type: 'tinyint', default: null})
-    is_active: boolean
+    is_active: boolean;
 
     @Column({length: 255, default: null})
     desk: string;

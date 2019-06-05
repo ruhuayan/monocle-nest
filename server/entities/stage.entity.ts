@@ -5,7 +5,7 @@ import { Site } from "./Site.entity";
 
 @Entity()
 export class Stage {
- 
+
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -35,16 +35,34 @@ export class Stage {
 
     @Column({length: 255, default: null})
     priotiry: string;
-    
-    @Column({type: 'tinyint', default: null})
-    is_hotfix: boolean
 
     @Column({type: 'tinyint', default: null})
-    needs_qa: boolean
+    isHotfix: boolean;
+
+    @Column({type: 'tinyint', default: null})
+    needsQa: boolean;
 
     @ManyToOne(type => Site)
     @JoinColumn()
     site: Site;
 }
 
-enum Status {}
+enum Status {
+  open = 'Open',
+  devTesting = 'Dev Testing',
+  readyForQa = 'Ready for Qa',
+  qaTesting = 'QA Testing',
+  problematic = 'Problematic',
+  toDeploy = 'To Deploy',
+  toDeployR = 'To Deploy (R)'
+}
+
+export enum Color {
+  white = 'white',
+  yellow = 'yellow',
+  orange = 'orange',
+  blue = 'blue',
+  red = 'red',
+  green = 'green',
+  teal = 'teal'
+}
