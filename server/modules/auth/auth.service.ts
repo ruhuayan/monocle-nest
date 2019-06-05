@@ -39,7 +39,7 @@ export class AuthService {
     }
 
     public async register(user: User): Promise<any> {
-      const success = await this.sendActivateEmail(user).then(res => console.log(res));
+      // const success = await this.sendActivateEmail(user).then(res => console.log(res));
 
       return this.userService.create(user);
     }

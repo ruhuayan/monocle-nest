@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Stage } from './stage.entity';
 
 @Entity()
 export class Site {
@@ -10,4 +11,7 @@ export class Site {
 
   @Column({default: null})
   teamId: number;
+
+  @OneToMany(type => Stage, stage => stage.site)
+  stages: Stage[]
 }

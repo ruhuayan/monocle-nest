@@ -18,7 +18,7 @@ export class SiteController {
 
     @Put(':id')
     async update(@Param('id') id, @Body() siteData: Site): Promise<any> {
-        siteData.siteId = Number(id);
+        siteData.id = Number(id);
         return this.siteService.update(siteData);
     }  
 

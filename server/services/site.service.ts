@@ -21,7 +21,7 @@ export class SiteService {
   }
 
   async update(site: Site): Promise<UpdateResult> {
-    return await this.siteRepository.update(site.siteId, site);
+    return await this.siteRepository.update(site.id, site);
   }
 
   async delete(id): Promise<DeleteResult> {

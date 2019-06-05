@@ -1,7 +1,5 @@
 import { PrimaryGeneratedColumn, Column, Entity, ManyToOne, JoinColumn } from "typeorm";
-import { Site } from "./Site.entity";
-
-// import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Site } from "./site.entity";
 
 @Entity()
 export class Stage {
@@ -28,7 +26,7 @@ export class Stage {
     dev: string;
 
     @Column({length: 255, default: null})
-    notes: number;
+    notes: string;
 
     @Column({length: 255, default: null})
     distinguishName: string;
@@ -42,8 +40,8 @@ export class Stage {
     @Column({type: 'tinyint', default: null})
     needsQa: boolean;
 
-    @ManyToOne(type => Site)
-    @JoinColumn()
+    @ManyToOne(type => Site, site => site.stages)
+    // @JoinColumn()
     site: Site;
 }
 

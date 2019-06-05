@@ -17,7 +17,7 @@ export class User {
   @IsEmail()
   email: string;
 
-  @Column({length: 255})
+  @Column({length: 50})
   @Matches(/((?=.*\d)(?=.*[a-z]).{6,20})/g, {message: 'Error password format'})
   password: string;
 
