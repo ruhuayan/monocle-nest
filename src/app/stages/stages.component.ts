@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class StagesComponent implements OnInit {
   sites = ['Pornhub', 'RedTube', 'YouPorn', 'Tube 8'];
 
-  stages = []
+  stages = [{isHotfix: false}, {isHotfix: false}]
 
   constructor(
     // private socketService: SocketService

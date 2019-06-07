@@ -254,6 +254,7 @@ button.js-filter.active {
 }
 button.input, button.js-status-filter {
     outline: none;
+    margin-left: 5px;
 }
 img.hidden{
     display: none;
@@ -274,4 +275,8 @@ img.hidden{
    .Rtable .Rtable-cell-status .col i.fa {
        transform: rotate(90deg);
    }
+}
+
+#sortingContent {
+    margin-top: 30px;
 }
